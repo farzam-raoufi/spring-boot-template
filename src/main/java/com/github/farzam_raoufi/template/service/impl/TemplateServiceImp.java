@@ -1,6 +1,8 @@
 package com.github.farzam_raoufi.template.service.impl;
 
 import com.github.farzam_raoufi.template.dto.TemplateDTO;
+import com.github.farzam_raoufi.template.exception.BusinessException;
+import com.github.farzam_raoufi.template.exception.ErrorMessage;
 import com.github.farzam_raoufi.template.mapper.TemplateMapper;
 import com.github.farzam_raoufi.template.model.Template;
 import com.github.farzam_raoufi.template.repository.TemplateRepository;
@@ -28,7 +30,9 @@ public class TemplateServiceImp implements TemplateService {
     @Override
     @Transactional(readOnly = true) // this is necessary for performance
     public TemplateDTO getTemplateById(Long id) {
-        Template template = templateRepository.findById(id).orElseThrow(); // add Exception
+        Template template = templateRepository.findById(id).orElseThrow(
+                () -> new BusinessException(ErrorMessage.TEMPLATE_NOT_FOUND, id)
+        );
         return templateMapper.toDTO(template);
     }
 
@@ -40,7 +44,9 @@ public class TemplateServiceImp implements TemplateService {
     @Override
     public TemplateDTO updateTemplate(Long id, TemplateDTO templateDTO) {
 
-        Template existing = templateRepository.findById(id).orElseThrow(); // add Exception
+        Template existing = templateRepository.findById(id).orElseThrow(
+                () -> new BusinessException(ErrorMessage.TEMPLATE_NOT_FOUND, id)
+        );
 
         templateMapper.updateEntityFromDTO(templateDTO, existing);
         return templateMapper.toDTO(templateRepository.save(existing));
@@ -49,7 +55,9 @@ public class TemplateServiceImp implements TemplateService {
 
     @Override
     public TemplateDTO patchTemplate(Long id, TemplateDTO templateDTO) {
-        Template existing = templateRepository.findById(id).orElseThrow(); // add Exception
+        Template existing = templateRepository.findById(id).orElseThrow(
+                () -> new BusinessException(ErrorMessage.TEMPLATE_NOT_FOUND, id)
+        );
         templateMapper.partialUpdate(templateDTO, existing);
         return templateMapper.toDTO(templateRepository.save(existing));
     }
@@ -57,7 +65,7 @@ public class TemplateServiceImp implements TemplateService {
     @Override
     public void deleteTemplate(Long id) {
         if (!templateRepository.existsById(id)) {
-            throw new RuntimeException(); // add Exception
+            throw new BusinessException(ErrorMessage.TEMPLATE_NOT_FOUND, id);
         }
         templateRepository.deleteById(id);
     }

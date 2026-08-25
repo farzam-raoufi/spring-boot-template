@@ -11,7 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
         });
 
         ErrorResponse errorResponse = new ErrorResponse(
-                LocalDateTime.now(),
+                Instant.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 "Validation Failed",
                 messageUtils.getMessage(ErrorMessage.BAD_REQUEST),
@@ -51,7 +51,7 @@ public class GlobalExceptionHandler {
         String message = messageUtils.getMessage(ex.getErrorMessage(), ex.getArgs());
 
         ErrorResponse response = new ErrorResponse(
-                LocalDateTime.now(),
+                Instant.now(),
                 ex.getErrorMessage().getStatus().value(),
                 "Business Error",
                 message,
@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({BadCredentialsException.class, AuthenticationException.class})
     public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException ex) {
         ErrorResponse response = new ErrorResponse(
-                LocalDateTime.now(),
+                Instant.now(),
                 HttpStatus.UNAUTHORIZED.value(),
                 "Unauthorized",
                 messageUtils.getMessage(ErrorMessage.INVALID_CREDENTIALS),
@@ -78,7 +78,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException ex) {
         ErrorResponse response = new ErrorResponse(
-                LocalDateTime.now(),
+                Instant.now(),
                 HttpStatus.FORBIDDEN.value(),
                 "Forbidden",
                 messageUtils.getMessage(ErrorMessage.FORBIDDEN),

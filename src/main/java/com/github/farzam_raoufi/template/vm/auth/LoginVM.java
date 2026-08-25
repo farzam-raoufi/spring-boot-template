@@ -1,5 +1,6 @@
 package com.github.farzam_raoufi.template.vm.auth;
 
+import com.github.farzam_raoufi.template.validation.ValidationMessages;
 import com.github.farzam_raoufi.template.validation.annotation.ValidPattern;
 import com.github.farzam_raoufi.template.validation.regex.RegexPattern;
 import jakarta.validation.constraints.NotBlank;
@@ -15,12 +16,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LoginVM {
 
-    @NotBlank(message = "{validation.not_blank}")
+    @NotBlank(message = ValidationMessages.NOT_BLANK)
     @ValidPattern(regexPattern = RegexPattern.EN_ALPHANUMERIC_REGEX)
-    @Size(min = 3, max = 50, message = "{validation.size.username}")
+    @Size(min = 3, max = 50, message = ValidationMessages.SIZE_USERNAME)
     private String username;
 
-    @NotBlank(message = "{validation.not_blank}")
+    @NotBlank(message = ValidationMessages.NOT_BLANK)
     @ValidPattern(regexPattern = RegexPattern.PASSWORD_STRONG)
     private String password;
 }

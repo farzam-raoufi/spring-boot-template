@@ -15,6 +15,7 @@ public @interface ValidPattern {
     String message() default "";
 
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 
     RegexPattern regexPattern();

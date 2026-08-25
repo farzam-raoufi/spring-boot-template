@@ -1,7 +1,8 @@
 package com.github.farzam_raoufi.template.service.impl;
 
-import com.github.farzam_raoufi.template.dto.auth.AuthResponse;
+import com.github.farzam_raoufi.template.dto.auth.AuthDTO;
 import com.github.farzam_raoufi.template.dto.auth.LoginDTO;
+import com.github.farzam_raoufi.template.dto.auth.RefreshTokenDTO;
 import com.github.farzam_raoufi.template.dto.auth.RegisterDTO;
 import com.github.farzam_raoufi.template.exception.BusinessException;
 import com.github.farzam_raoufi.template.exception.ErrorMessage;
@@ -9,6 +10,7 @@ import com.github.farzam_raoufi.template.model.Role;
 import com.github.farzam_raoufi.template.model.User;
 import com.github.farzam_raoufi.template.repository.UserRepository;
 import com.github.farzam_raoufi.template.security.jwt.JwtService;
+import com.github.farzam_raoufi.template.security.jwt.RefreshTokenService;
 import com.github.farzam_raoufi.template.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,11 +26,12 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final RefreshTokenService refreshTokenService;
     private final AuthenticationManager authenticationManager;
 
     @Override
     @Transactional
-    public AuthResponse register(RegisterDTO registerDTO) {
+    public AuthDTO register(RegisterDTO registerDTO) {
         if (userRepository.existsByUsername(registerDTO.getUsername())) {
             throw new BusinessException(ErrorMessage.USERNAME_ALREADY_EXISTS, registerDTO.getUsername());
         }
@@ -42,10 +45,12 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.save(user);
 
-        String token = jwtService.generateToken(user);
+        String accessToken = jwtService.generateToken(user);
+        String refreshToken = refreshTokenService.createToken(user);
 
-        return AuthResponse.builder()
-                .accessToken(token)
+        return AuthDTO.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .tokenType("Bearer")
                 .userId(user.getId())
                 .username(user.getUsername())
@@ -54,7 +59,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthResponse login(LoginDTO loginDTO) {
+    public AuthDTO login(LoginDTO loginDTO) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDTO.getUsername(),
@@ -65,14 +70,38 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByUsername(loginDTO.getUsername())
                 .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND, loginDTO.getUsername()));
 
-        String token = jwtService.generateToken(user);
+        String accessToken = jwtService.generateToken(user);
+        String refreshToken = refreshTokenService.createToken(user);
 
-        return AuthResponse.builder()
-                .accessToken(token)
+        return AuthDTO.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .tokenType("Bearer")
                 .userId(user.getId())
                 .username(user.getUsername())
                 .role(user.getRole())
                 .build();
+    }
+
+    @Override
+    public AuthDTO refreshToken(String refreshToken) {
+        RefreshTokenDTO result = refreshTokenService.rotate(refreshToken);
+        User user = result.user();
+
+        String accessToken = jwtService.generateToken(user);
+
+        return AuthDTO.builder()
+                .accessToken(accessToken)
+                .refreshToken(result.rawToken())
+                .tokenType("Bearer")
+                .userId(user.getId())
+                .username(user.getUsername())
+                .role(user.getRole())
+                .build();
+    }
+
+    @Override
+    public void logout(String refreshToken) {
+        refreshTokenService.revoke(refreshToken);
     }
 }

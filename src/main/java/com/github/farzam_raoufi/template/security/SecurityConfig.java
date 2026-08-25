@@ -1,5 +1,6 @@
 package com.github.farzam_raoufi.template.security;
 
+import com.github.farzam_raoufi.template.model.Role;
 import com.github.farzam_raoufi.template.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -44,10 +45,10 @@ public class SecurityConfig {
                                 "/actuator/**"
                         ).permitAll()
                         // Admin only
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
                         // Authenticated users
                         .requestMatchers(HttpMethod.GET, "/template/**").authenticated()
-                        .requestMatchers("/template/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/template/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
                         // Everything else requires authentication
                         .anyRequest().authenticated()
                 )

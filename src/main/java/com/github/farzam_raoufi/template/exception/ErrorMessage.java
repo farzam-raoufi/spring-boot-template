@@ -10,6 +10,8 @@ public enum ErrorMessage {
     USER_NOT_FOUND("error.user.notfound", HttpStatus.NOT_FOUND),
     USERNAME_ALREADY_EXISTS("error.username.exists", HttpStatus.CONFLICT),
     INVALID_CREDENTIALS("error.invalid.credentials", HttpStatus.UNAUTHORIZED),
+    REFRESH_TOKEN_INVALID("error.refresh_token.invalid", HttpStatus.UNAUTHORIZED),
+    REFRESH_TOKEN_EXPIRED("error.refresh_token.expired", HttpStatus.UNAUTHORIZED),
     // General Errors
     INTERNAL_SERVER_ERROR("error.internal.server", HttpStatus.INTERNAL_SERVER_ERROR),
     BAD_REQUEST("error.bad.request", HttpStatus.BAD_REQUEST),
@@ -22,7 +24,7 @@ public enum ErrorMessage {
     @Getter
     private final HttpStatus status;
 
-    ErrorMessage(String key,HttpStatus status) {
+    ErrorMessage(String key, HttpStatus status) {
         this.key = key;
         this.status = status;
     }

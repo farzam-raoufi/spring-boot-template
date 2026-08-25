@@ -6,6 +6,10 @@ public enum RegexPattern {
             "^[a-zA-Z0-9\\dآابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهیءأإؤئ۰۱۲۳۴۵۶۷۸۹]+$",
             "validation.alphanumeric"
     ),
+    EN_ALPHANUMERIC_REGEX(
+            "^[a-zA-Z0-9\\d]+$",
+            "validation.en_alphanumeric"
+    ),
     DIGITS_ONLY_REGEX(
             "^\\d+",
             "validation.digits_only"

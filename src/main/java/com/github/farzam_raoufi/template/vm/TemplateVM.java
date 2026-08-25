@@ -26,7 +26,8 @@ public class TemplateVM {
     @NotBlank(message = "Name is required", groups = {Create.class})
 //    @ValidPattern(regexPattern = RegexPattern.NOT_BLANK, groups = {Create.class, Update.class}) // <--- Using custom regex pattern
     @Size(min = 1, max = 100, groups = {Create.class, Update.class})
-    @ValidPattern(regexPattern = RegexPattern.ALPHANUMERIC_REGEX, groups = {Create.class, Update.class}) // <--- Using custom regex pattern
+    @ValidPattern(regexPattern = RegexPattern.ALPHANUMERIC_REGEX, groups = {Create.class, Update.class})
+    // <--- Using custom regex pattern
     @KeepRaw // <--- This field will bypass the global trim logic
     private String name;
 }

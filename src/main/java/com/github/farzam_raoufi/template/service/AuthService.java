@@ -1,12 +1,16 @@
 package com.github.farzam_raoufi.template.service;
 
-import com.github.farzam_raoufi.template.dto.auth.AuthResponse;
+import com.github.farzam_raoufi.template.dto.auth.AuthDTO;
 import com.github.farzam_raoufi.template.dto.auth.LoginDTO;
 import com.github.farzam_raoufi.template.dto.auth.RegisterDTO;
 
 public interface AuthService {
 
-    AuthResponse register(RegisterDTO registerDTO);
+    AuthDTO register(RegisterDTO registerDTO);
 
-    AuthResponse login(LoginDTO loginDTO);
+    AuthDTO login(LoginDTO loginDTO);
+
+    AuthDTO refreshToken(String refreshToken);
+
+    void logout(String refreshToken);
 }

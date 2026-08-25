@@ -1,4 +1,4 @@
-package com.github.farzam_raoufi.template.vm.auth;
+package com.github.farzam_raoufi.template.dto.auth;
 
 import com.github.farzam_raoufi.template.model.Role;
 import lombok.AllArgsConstructor;
@@ -10,9 +10,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthResponse {
+public class AuthDTO {
 
     private String accessToken;
+    private String refreshToken;
     private String tokenType;
     private Long userId;
     private String username;

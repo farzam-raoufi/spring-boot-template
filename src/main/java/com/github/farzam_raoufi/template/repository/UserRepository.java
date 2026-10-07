@@ -1,5 +1,6 @@
 package com.github.farzam_raoufi.template.repository;
 
+import com.github.farzam_raoufi.template.model.AuthProvider;
 import com.github.farzam_raoufi.template.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,4 +11,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
 
     boolean existsByUsername(String username);
+
+    Optional<User> findByProviderAndProviderId(AuthProvider provider, String providerId);
+
+    Optional<User> findByEmail(String email);
 }

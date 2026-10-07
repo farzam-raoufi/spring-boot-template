@@ -12,6 +12,8 @@ public enum ErrorMessage {
     INVALID_CREDENTIALS("error.invalid.credentials", HttpStatus.UNAUTHORIZED),
     REFRESH_TOKEN_INVALID("error.refresh_token.invalid", HttpStatus.UNAUTHORIZED),
     REFRESH_TOKEN_EXPIRED("error.refresh_token.expired", HttpStatus.UNAUTHORIZED),
+    SOCIAL_PROVIDER_NOT_SUPPORTED("error.social_provider.not_supported", HttpStatus.BAD_REQUEST),
+    SOCIAL_TOKEN_INVALID("error.social_token.invalid", HttpStatus.UNAUTHORIZED),
     // General Errors
     INTERNAL_SERVER_ERROR("error.internal.server", HttpStatus.INTERNAL_SERVER_ERROR),
     BAD_REQUEST("error.bad.request", HttpStatus.BAD_REQUEST),

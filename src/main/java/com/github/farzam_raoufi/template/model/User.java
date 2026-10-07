@@ -16,7 +16,9 @@ import java.util.List;
 @Table(
         name = "users",
         indexes = {
-                @Index(name = "idx_users_username", columnList = "username", unique = true)
+                @Index(name = "idx_users_username", columnList = "username", unique = true),
+                @Index(name = "idx_users_email", columnList = "email", unique = true),
+                @Index(name = "idx_users_provider_provider_id", columnList = "provider, provider_id", unique = true)
         }
 )
 @Getter
@@ -38,6 +40,17 @@ public class User implements UserDetails {
 
     @Column
     private String password;
+
+    @Column(unique = true, length = 100)
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    @Builder.Default
+    private AuthProvider provider = AuthProvider.LOCAL;
+
+    @Column(name = "provider_id", length = 100)
+    private String providerId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)

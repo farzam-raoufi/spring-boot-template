@@ -1,0 +1,24 @@
+# VCS / IDE
+.git
+.gitignore
+.idea
+.vscode
+*.iml
+
+# Build output (rebuilt inside the container)
+target
+build
+*.log
+
+# Secrets & local config - must never end up in an image layer
+.env
+.env.*
+!.env.example
+
+# Docker / docs files are not needed in the build context
+Dockerfile
+docker-compose*.yml
+.dockerignore
+README.md
+DOCKER.md
+HELP.md

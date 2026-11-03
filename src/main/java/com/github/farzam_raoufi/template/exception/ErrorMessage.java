@@ -14,6 +14,9 @@ public enum ErrorMessage {
     REFRESH_TOKEN_EXPIRED("error.refresh_token.expired", HttpStatus.UNAUTHORIZED),
     SOCIAL_PROVIDER_NOT_SUPPORTED("error.social_provider.not_supported", HttpStatus.BAD_REQUEST),
     SOCIAL_TOKEN_INVALID("error.social_token.invalid", HttpStatus.UNAUTHORIZED),
+    // Notification Errors
+    NOTIFICATION_CHANNEL_NOT_SUPPORTED("error.notification_channel.not_supported",HttpStatus.BAD_REQUEST),
+    NOTIFICATION_SEND_FAILED("error.notification.send_failed",HttpStatus.INTERNAL_SERVER_ERROR),
     // General Errors
     INTERNAL_SERVER_ERROR("error.internal.server", HttpStatus.INTERNAL_SERVER_ERROR),
     BAD_REQUEST("error.bad.request", HttpStatus.BAD_REQUEST),

@@ -17,6 +17,9 @@ public enum ErrorMessage {
     BAD_REQUEST("error.bad.request", HttpStatus.BAD_REQUEST),
     UNAUTHORIZED("error.unauthorized", HttpStatus.UNAUTHORIZED),
     FORBIDDEN("error.forbidden", HttpStatus.FORBIDDEN),
+    // Config Errors
+    CONFIG_NOT_FOUND("error.config.notfound", HttpStatus.NOT_FOUND),
+    CONFIG_VALUE_INVALID("error.config.value_invalid", HttpStatus.BAD_REQUEST),
     ;
 
     @Getter

@@ -7,6 +7,7 @@ public class ValidationMessages {
 
     public static final String NOT_BLANK = "{validation.not_blank}";
     public static final String SIZE_USERNAME = "{validation.size.username}";
+    public static final String SIZE_SYSTEM_CONFIG_VALUE = "{validation.size.system_config}";
 
     public static final String ALPHANUMERIC = "{validation.alphanumeric}";
     public static final String EN_ALPHANUMERIC = "{validation.en_alphanumeric}";

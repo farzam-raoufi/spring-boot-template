@@ -44,18 +44,7 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         userRepository.save(user);
-
-        String accessToken = jwtService.generateToken(user);
-        String refreshToken = refreshTokenService.createToken(user);
-
-        return AuthDTO.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .tokenType("Bearer")
-                .userId(user.getId())
-                .username(user.getUsername())
-                .role(user.getRole())
-                .build();
+        return issueTokens(user);
     }
 
     @Override
@@ -69,18 +58,7 @@ public class AuthServiceImpl implements AuthService {
 
         User user = userRepository.findByUsername(loginDTO.getUsername())
                 .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND, loginDTO.getUsername()));
-
-        String accessToken = jwtService.generateToken(user);
-        String refreshToken = refreshTokenService.createToken(user);
-
-        return AuthDTO.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .tokenType("Bearer")
-                .userId(user.getId())
-                .username(user.getUsername())
-                .role(user.getRole())
-                .build();
+        return issueTokens(user);
     }
 
 
@@ -132,7 +110,6 @@ public class AuthServiceImpl implements AuthService {
 
     private User createSocialUser(SocialUserInfo socialUserInfo) {
         User user = User.builder()
-                .username(socialUserInfo.getEmail())
                 .email(socialUserInfo.getEmail())
                 .provider(socialUserInfo.getProvider())
                 .providerId(socialUserInfo.getProviderId())

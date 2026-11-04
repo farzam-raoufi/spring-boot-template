@@ -56,7 +56,7 @@ public class RefreshTokenService {
      * Validates the raw token, then rotates it: the old record is deleted and a new one issued.
      * Rotation means a refresh token can only ever be used until refreshRotateMs after issue.
      */
-    @Transactional
+    @Transactional(noRollbackFor = BusinessException.class)
     public RefreshTokenDTO rotate(String rawToken) {
         RefreshToken existing = refreshTokenRepository.findByTokenHash(hash(rawToken))
                 .orElseThrow(() -> new BusinessException(ErrorMessage.REFRESH_TOKEN_INVALID));

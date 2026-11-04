@@ -33,10 +33,6 @@ public enum RegexPattern {
     EMAIL(
             "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$",
             "validation.email"
-    ),
-    NOT_BLANK(
-            ".*\\S.*",
-            "validation.not_blank"
     );
 
     private final String pattern;
